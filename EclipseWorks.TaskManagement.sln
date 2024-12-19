@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EclipseWorks.TaskManagement.Models", "src\EclipseWorks.TaskManagement.Models\EclipseWorks.TaskManagement.Models.csproj", "{F5AE20E1-91CF-4223-9043-1936C09E1A0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EclipseWorks.TaskManagement.Application", "src\EclipseWorks.TaskManagement.Application\EclipseWorks.TaskManagement.Application.csproj", "{126183D0-32ED-47D1-ADDF-752F3EDC5A5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EclipseWorks.TaskManagement.Infrastructure", "src\EclipseWorks.TaskManagement.Infrastructure\EclipseWorks.TaskManagement.Infrastructure.csproj", "{2D9D3643-2FDF-44E4-808F-C51BA80E7747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EclipseWorks.TaskManagement.WebApi", "src\EclipseWorks.TaskManagement.WebApi\EclipseWorks.TaskManagement.WebApi.csproj", "{E74F67EF-10F2-46AD-8C1E-9A2C65722AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EclipseWorks.TaskManagement.Tests", "tests\EclipseWorks.TaskManagement.Tests\EclipseWorks.TaskManagement.Tests.csproj", "{C1FEF190-E099-4731-9735-FFCEEDF13F67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5AE20E1-91CF-4223-9043-1936C09E1A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AE20E1-91CF-4223-9043-1936C09E1A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AE20E1-91CF-4223-9043-1936C09E1A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AE20E1-91CF-4223-9043-1936C09E1A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{126183D0-32ED-47D1-ADDF-752F3EDC5A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126183D0-32ED-47D1-ADDF-752F3EDC5A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126183D0-32ED-47D1-ADDF-752F3EDC5A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126183D0-32ED-47D1-ADDF-752F3EDC5A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9D3643-2FDF-44E4-808F-C51BA80E7747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9D3643-2FDF-44E4-808F-C51BA80E7747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9D3643-2FDF-44E4-808F-C51BA80E7747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9D3643-2FDF-44E4-808F-C51BA80E7747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E74F67EF-10F2-46AD-8C1E-9A2C65722AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74F67EF-10F2-46AD-8C1E-9A2C65722AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74F67EF-10F2-46AD-8C1E-9A2C65722AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74F67EF-10F2-46AD-8C1E-9A2C65722AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1FEF190-E099-4731-9735-FFCEEDF13F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FEF190-E099-4731-9735-FFCEEDF13F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FEF190-E099-4731-9735-FFCEEDF13F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FEF190-E099-4731-9735-FFCEEDF13F67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
