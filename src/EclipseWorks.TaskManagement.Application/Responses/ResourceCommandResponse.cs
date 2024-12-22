@@ -2,7 +2,7 @@
 
 namespace EclipseWorks.TaskManagement.Application.Responses;
 
-public interface IResourceCommandResponse
+public class ResourceCommandResponse
 {
     public bool Success { get; }
     public HttpStatusCode HttpStatusCode { get; set; }

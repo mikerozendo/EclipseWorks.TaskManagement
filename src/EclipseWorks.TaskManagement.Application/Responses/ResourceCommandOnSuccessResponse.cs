@@ -2,7 +2,7 @@
 
 namespace EclipseWorks.TaskManagement.Application.Responses;
 
-public sealed class ResourceCommandOnSuccessResponse : IResourceCommandResponse
+public sealed class ResourceCommandOnSuccessResponse : ResourceCommandResponse
 {
     public Guid? ResourceId { get; set; }
     public bool Success => true;

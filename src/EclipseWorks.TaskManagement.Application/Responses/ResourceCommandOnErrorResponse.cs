@@ -2,7 +2,7 @@
 
 namespace EclipseWorks.TaskManagement.Application.Responses;
 
-public sealed class ResourceCommandOnErrorResponse : IResourceCommandResponse
+public sealed class ResourceCommandOnErrorResponse : ResourceCommandResponse
 {
     public bool Success => false;
     public HttpStatusCode HttpStatusCode { get; set; }
