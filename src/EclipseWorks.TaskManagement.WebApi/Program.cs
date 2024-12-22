@@ -1,6 +1,7 @@
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories;
+using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +15,8 @@ ArgumentNullException.ThrowIfNull(environmentConfiguration);
 builder.Services.AddSingleton(environmentConfiguration);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IResourceCommandResponse>());
 
-builder.Services.AddScoped<IRepository<Project>, ProjectsRepository>();
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
+builder.Services.AddScoped<IProjectsHistoryRepository, ProjectsHistoryRepository>();
 
 if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
 {

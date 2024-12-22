@@ -1,22 +1,21 @@
 ﻿using System.Net;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
-using EclipseWorks.TaskManagement.Infrastructure.Repositories;
+using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
 public sealed class CreateProjectTaskHandler(
-    IRepository<Project> projectRepository,
-    IRepository<ProjectHistory> tasksHistoryRepository,
-    IProjectsRepository projectsRepository)
+    IProjectsRepository projectsRepository,
+    IProjectsHistoryRepository tasksHistoryRepository)
     : IRequestHandler<CreateProjectTaskRequest, IResourceCommandResponse>
 {
     public async Task<IResourceCommandResponse> Handle(CreateProjectTaskRequest request,
         CancellationToken cancellationToken)
     {
-        var project = await projectRepository.GetByIdAsync(request.ProjectId);
+        var project = await projectsRepository.GetByIdAsync(request.ProjectId);
         if (project is null)
         {
             return new ResourceCommandOnErrorResponse(
@@ -52,7 +51,7 @@ public sealed class CreateProjectTaskHandler(
             Status = request.TaskStatus,
             Priority = request.TaskPriority,
         });
-        
+
         await projectsRepository.UpdateAsync(project);
         await tasksHistoryRepository.InsertAsync(projectHistory);
 
