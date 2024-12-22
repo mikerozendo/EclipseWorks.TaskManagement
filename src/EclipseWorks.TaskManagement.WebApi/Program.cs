@@ -8,24 +8,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton(() =>
-    builder.Configuration.Get<EnvironmentConfiguration>()
-);
+var environmentConfiguration = builder.Configuration.Get<EnvironmentConfiguration>();
+ArgumentNullException.ThrowIfNull(environmentConfiguration);
+builder.Services.AddSingleton(environmentConfiguration);
 
 builder.Services.AddScoped<IRepository<Project>, ProjectsRepository>();
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8080);
+});
+
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
+// app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
