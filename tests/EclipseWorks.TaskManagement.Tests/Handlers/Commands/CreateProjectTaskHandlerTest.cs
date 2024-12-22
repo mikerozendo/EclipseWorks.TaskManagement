@@ -18,6 +18,7 @@ public sealed class CreateProjectTaskHandlerTest
     private readonly IRepository<ProjectHistory> _projectsHistoryRepository;
     private readonly IProjectsRepository _projectsRepository;
     private readonly Fixture _fixture;
+
     public CreateProjectTaskHandlerTest()
     {
         _fixture = Substitute.For<Fixture>();
@@ -35,11 +36,33 @@ public sealed class CreateProjectTaskHandlerTest
         _repository.GetByIdAsync(Arg.Any<Guid>()).Returns(project);
 
         var request = _fixture.Create<CreateProjectTaskRequest>();
-        
+
         //Act
         var handlerResponse = await _sut.Handle(request, CancellationToken.None);
-        
+
         //Assert
-        handlerResponse.ShouldBeAssignableTo<ResourceCommandOnErrorResponse>()?.HttpStatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
+        handlerResponse.ShouldBeAssignableTo<ResourceCommandOnErrorResponse>()?
+            .HttpStatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
+    }
+
+    [Fact]
+    public async Task Handle_WithMaxTasksCount_ReturnsHttpStatusCodeAsUnprocessableEntity()
+    {
+        //Arrange
+        var projectTasks = _fixture.CreateMany<ProjectTask>(20).ToList();
+        var filteredProject = _fixture.Build<Project>()
+            .With(x => x.Tasks, projectTasks)
+            .Create();
+
+        _repository.GetByIdAsync(Arg.Any<Guid>()).Returns(filteredProject);
+
+        var request = _fixture.Create<CreateProjectTaskRequest>();
+
+        //Act
+        var handlerResponse = await _sut.Handle(request, CancellationToken.None);
+
+        //Assert
+        handlerResponse.ShouldBeAssignableTo<ResourceCommandOnErrorResponse>()?
+            .HttpStatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
     }
 }
