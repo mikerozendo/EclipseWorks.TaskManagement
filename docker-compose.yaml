@@ -1,0 +1,33 @@
+﻿version: '3'
+services:
+  webapi:
+    image: eclipse-works:latest
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: db
+    ports:
+      - "27017:27017"
+    environment:
+      - name=mongodb
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
