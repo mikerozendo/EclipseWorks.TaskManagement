@@ -1,25 +1,36 @@
+using EclipseWorks.TaskManagement.Application.Responses;
+using EclipseWorks.TaskManagement.Infrastructure;
+using EclipseWorks.TaskManagement.Infrastructure.Repositories;
+using EclipseWorks.TaskManagement.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+var environmentConfiguration = builder.Configuration.Get<EnvironmentConfiguration>();
+ArgumentNullException.ThrowIfNull(environmentConfiguration);
+builder.Services.AddSingleton(environmentConfiguration);
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IResourceCommandResponse>());
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+builder.Services.AddScoped<IRepository<Project>, ProjectsRepository>();
+
+if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(8080);
+    });
 }
 
-app.UseHttpsRedirection();
+var app = builder.Build();
 
-app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
 
+// app.UseHttpsRedirection();
+
+// app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
