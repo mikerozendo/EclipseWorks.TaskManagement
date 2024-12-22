@@ -7,9 +7,9 @@ using MediatR;
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
 public sealed class CreateProjectCommandHandler(IRepository<Project> repository)
-    : IRequestHandler<CreateProjectRequest, ResourceCommandResponse>
+    : IRequestHandler<CreateProjectRequest, IResourceCommandResponse>
 {
-    public async Task<ResourceCommandResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
+    public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
     {
         try
         {

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Requests;
 
-public sealed class CreateProjectRequest : IRequest<ResourceCommandResponse>
+public sealed class CreateProjectRequest : IRequest<IResourceCommandResponse>
 {
     public Guid Id { get; set; }
 }

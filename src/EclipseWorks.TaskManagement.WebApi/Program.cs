@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 var environmentConfiguration = builder.Configuration.Get<EnvironmentConfiguration>();
 ArgumentNullException.ThrowIfNull(environmentConfiguration);
 builder.Services.AddSingleton(environmentConfiguration);
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ResourceCommandResponse>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IResourceCommandResponse>());
 
 builder.Services.AddScoped<IRepository<Project>, ProjectsRepository>();
 
