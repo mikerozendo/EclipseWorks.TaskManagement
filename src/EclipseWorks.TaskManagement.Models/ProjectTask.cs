@@ -1,6 +1,6 @@
 ﻿namespace EclipseWorks.TaskManagement.Models;
 
-public sealed class ProjectTask
+public sealed class ProjectTask : IEntity
 {
     public required Guid Id { get; set; }
     public required string Title { get; set; }
