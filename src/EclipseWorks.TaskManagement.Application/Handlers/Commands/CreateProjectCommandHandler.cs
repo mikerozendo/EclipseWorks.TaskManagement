@@ -9,26 +9,19 @@ namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
     : IRequestHandler<CreateProjectRequest, IResourceCommandResponse>
 {
-    public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
+    public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request,
+        CancellationToken cancellationToken)
     {
-        try
+        await repository.InsertAsync(new Project()
         {
-            await repository.InsertAsync(new Project()
-            {
-                Id = Guid.NewGuid(),
-                CreatedAt = DateTime.Now,
-                Tasks = []
-            });
-            
-            return new ResourceCommandOnSuccessResponse()
-            {
-                ResourceId = Guid.NewGuid()
-            };
-        }
-        catch (Exception ex)
+            Id = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            Tasks = []
+        });
+
+        return new ResourceCommandOnSuccessResponse()
         {
-            Console.WriteLine(ex);
-            throw;
-        }
+            ResourceId = Guid.NewGuid()
+        };
     }
 }
