@@ -1,7 +1,12 @@
-﻿namespace EclipseWorks.TaskManagement.Models;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace EclipseWorks.TaskManagement.Models;
 
 public sealed class ProjectTask : IEntity
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
     public required Guid Id { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }
