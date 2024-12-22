@@ -10,6 +10,8 @@ services:
       - mongodb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__ConnectionString=mongodb://db:27017
+      - MongoDb__DatabaseName=eclipse_works
     ports:
       - "8080:8080"
     networks:
@@ -22,12 +24,13 @@ services:
     environment:
       - name=mongodb
     volumes:
-      - type: bind
-        source: ./data
-        target: /data/db
+      - mongodb_data:/data/db
     networks:
       - app_network
 
+volumes:
+  mongodb_data: {}
+    
 networks:
   app_network:
     driver: bridge
