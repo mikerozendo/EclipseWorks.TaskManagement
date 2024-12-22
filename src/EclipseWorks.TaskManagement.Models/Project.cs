@@ -9,5 +9,6 @@ public sealed class Project : IEntity
     [BsonRepresentation(BsonType.String)]
     public required Guid Id { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public IEnumerable<ProjectTask> Tasks { get; set; } = [];
+    public List<ProjectTask> Tasks { get; set; } = [];
+    public DateTime? LastModifiedAt { get; set; }
 }

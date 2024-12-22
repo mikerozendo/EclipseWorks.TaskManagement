@@ -4,6 +4,6 @@ namespace EclipseWorks.TaskManagement.Infrastructure.Repositories;
 
 public interface IRepository<T> where T : IEntity
 {
-    Task<T?> GetById(Guid id);
-    Task Insert(T record);
+    Task<T?> GetByIdAsync(Guid id);
+    Task InsertAsync(T record);
 }

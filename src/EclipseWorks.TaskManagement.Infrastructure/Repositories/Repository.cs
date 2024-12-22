@@ -22,14 +22,14 @@ public class Repository<T> where T : IEntity
         return await Collection.Find(filter).ToListAsync();
     }
 
-    public async Task<T?> GetById(Guid id)
+    public async Task<T?> GetByIdAsync(Guid id)
     {
         return await Collection
             .AsQueryable()
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task Insert(T record)
+    public async Task InsertAsync(T record)
     {
         await Collection.InsertOneAsync(record);
     }

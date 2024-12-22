@@ -13,7 +13,7 @@ public sealed class CreateProjectCommandHandler(IRepository<Project> repository)
     {
         try
         {
-            await repository.Insert(new Project()
+            await repository.InsertAsync(new Project()
             {
                 Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,

@@ -15,13 +15,11 @@ builder.Services.AddSingleton(environmentConfiguration);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IResourceCommandResponse>());
 
 builder.Services.AddScoped<IRepository<Project>, ProjectsRepository>();
+builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
 
 if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
 {
-    builder.WebHost.ConfigureKestrel(serverOptions =>
-    {
-        serverOptions.ListenAnyIP(8080);
-    });
+    builder.WebHost.ConfigureKestrel(serverOptions => { serverOptions.ListenAnyIP(8080); });
 }
 
 var app = builder.Build();
