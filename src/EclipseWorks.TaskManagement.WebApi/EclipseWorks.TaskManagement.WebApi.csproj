@@ -11,10 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\EclipseWorks.TaskManagement.Application\EclipseWorks.TaskManagement.Application.csproj" />
       <ProjectReference Include="..\EclipseWorks.TaskManagement.Infrastructure\EclipseWorks.TaskManagement.Infrastructure.csproj" />
     </ItemGroup>
