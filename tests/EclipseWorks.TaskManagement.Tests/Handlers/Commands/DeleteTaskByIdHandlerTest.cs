@@ -5,6 +5,7 @@ using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Shouldly;
 using Xunit;
 
@@ -23,6 +24,22 @@ public sealed class DeleteTaskByIdHandlerTest
         _tasksRepository = Substitute.For<ITasksRepository>();
         _projectsRepository = Substitute.For<IProjectsRepository>();
         _sut = new DeleteTaskByIdHandler(_projectsRepository, _tasksRepository);
+    }
+    
+    [Fact]
+    public async Task Handle_WithNonExistingProject_ReturnsFailure()
+    {
+        //Arrange
+        var request = _fixture.Create<DeleteTaskByIdRequest>();
+        var project = _fixture.Create<Project>();
+
+        _projectsRepository.GetByIdAsync(Arg.Any<Guid>()).ReturnsNull();
+        
+        //Act
+        var result = await _sut.Handle(request, CancellationToken.None);
+
+        //Assert
+        result.ShouldBeOfType<ResourceCommandOnErrorResponse>();
     }
 
     [Fact]
