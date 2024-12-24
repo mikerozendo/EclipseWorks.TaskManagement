@@ -31,7 +31,7 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
         {
             return CreatedAtAction(
                 nameof(GetById),
-                new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
+                new { taskId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
             );
         }
 

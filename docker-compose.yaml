@@ -25,7 +25,7 @@ services:
     environment:
       - name=mongodb
     volumes:
-      - mongodb_data:/mongodb_volume_data/db
+      - mongodb_data:/data/db
     networks:
       - app_network
 

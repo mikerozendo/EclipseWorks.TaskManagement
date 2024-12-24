@@ -12,7 +12,9 @@ public sealed class TaskHistory : IEntity
     [BsonRepresentation(BsonType.String)]
     public required Guid ModifiedTaskId { get; set; }
     
+    [BsonRepresentation(BsonType.String)]
     public required Guid ModifierId { get; set; }
+    
     public required DateTime ModifiedAt { get; set; }
     public required ProjectTask TaskLastState { get; set; }
 }
