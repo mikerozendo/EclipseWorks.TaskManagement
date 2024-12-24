@@ -67,7 +67,7 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
         });
 
         if (response.Success)
-            return Created();
+            return Accepted();
 
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
