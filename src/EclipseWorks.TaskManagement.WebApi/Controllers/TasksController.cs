@@ -50,4 +50,21 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }
+    
+    [HttpPost]
+    [Route("{taskId:guid}/comments")]
+    public async Task<IActionResult> PostComment([FromRoute] Guid taskId, [FromBody]string text)
+    {
+        var response = await mediator.Send(new CreateTaskCommentRequest
+        {
+            TaskId = taskId,
+            Text = text
+        });
+
+        if (response.Success)
+            return Created();
+
+        var error = (ResourceCommandOnErrorResponse)response;
+        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    }
 }
