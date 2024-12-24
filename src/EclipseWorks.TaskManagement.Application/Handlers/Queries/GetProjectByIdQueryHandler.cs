@@ -5,13 +5,25 @@ using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Queries;
 
-public sealed class GetProjectByIdQueryHandler(IProjectsRepository projectsRepository)
+public sealed class GetProjectByIdQueryHandler(IProjectsRepository projectsRepository, ITasksRepository tasksRepository)
     : IRequestHandler<GetProjectByIdQueryRequest, ResourceQueryResponse>
 {
     public async Task<ResourceQueryResponse> Handle(GetProjectByIdQueryRequest request,
-        CancellationToken cancellationToken) =>
-        new()
+        CancellationToken cancellationToken)
+    {
+        var filteredProject = await projectsRepository.GetByIdAsync(request.ResourceId);
+        if (filteredProject is null)
         {
-            Resource = await projectsRepository.GetByIdAsync(request.ResourceId)
+            return new ResourceQueryResponse();
+        }
+
+
+        var tasksRelatedToThisProject = await tasksRepository.GetByProjectIdAsync(request.ResourceId);
+        filteredProject.Tasks.AddRange(tasksRelatedToThisProject);
+
+        return new ResourceQueryResponse
+        {
+            Resource = filteredProject
         };
+    }
 }

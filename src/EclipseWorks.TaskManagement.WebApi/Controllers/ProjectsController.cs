@@ -36,7 +36,23 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
                 new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
             );
         }
-        
+
+        var error = (ResourceCommandOnErrorResponse)response;
+        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    }
+
+    [HttpPatch]
+    [Route("{projectId:guid}/close")]
+    public async Task<IActionResult> CloseProject([FromRoute] Guid projectId)
+    {
+        var response = await mediator.Send(new CloseProjectByIdRequest
+        {
+            ProjectId = projectId,
+        });
+
+        if (response.Success)
+            return Accepted();
+
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }

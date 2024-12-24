@@ -19,6 +19,15 @@ public sealed class TasksRepository(EnvironmentConfiguration environmentConfigur
     public async Task CreateAsync(ProjectTask record)
         => await Collection.InsertOneAsync(record);
 
-    public async Task UpdateAsync(ProjectTask entity) 
+    public async Task UpdateAsync(ProjectTask entity)
         => await Collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+
+    public async Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(Guid projectId)
+        => await Collection
+            .AsQueryable()
+            .Where(task => task.ProjectId == projectId)
+            .ToListAsync();
+
+    public async Task DeleteByIdAsync(Guid taskId) 
+        => await Collection.DeleteOneAsync(task => task.Id == taskId);
 }
