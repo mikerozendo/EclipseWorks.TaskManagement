@@ -1,6 +1,6 @@
 ﻿namespace EclipseWorks.TaskManagement.Models;
 
-public enum TaskStatus
+public enum ProjectTaskStatus
 {
     Pending,
     Doing,

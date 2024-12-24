@@ -1,34 +1,29 @@
 ﻿using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
-using EclipseWorks.TaskManagement.Infrastructure.Repositories;
+using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
-public sealed class CreateProjectCommandHandler(IRepository<Project> repository)
+public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
     : IRequestHandler<CreateProjectRequest, IResourceCommandResponse>
 {
-    public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request, CancellationToken cancellationToken)
+    public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request,
+        CancellationToken cancellationToken)
     {
-        try
+        var project = new Project
         {
-            await repository.Insert(new Project()
-            {
-                Id = Guid.NewGuid(),
-                CreatedAt = DateTime.Now,
-                Tasks = []
-            });
-            
-            return new ResourceCommandOnSuccessResponse()
-            {
-                ResourceId = Guid.NewGuid()
-            };
-        }
-        catch (Exception ex)
+            Id = request.Id,
+            CreatedAt = DateTime.UtcNow,
+            TaskIds = []
+        };
+
+        await repository.CreateAsync(project);
+
+        return new ResourceCommandOnSuccessResponse()
         {
-            Console.WriteLine(ex);
-            throw;
-        }
+            ResourceId = project.Id
+        };
     }
 }
