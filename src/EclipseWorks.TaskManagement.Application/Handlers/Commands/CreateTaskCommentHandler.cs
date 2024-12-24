@@ -7,7 +7,9 @@ using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
-public sealed class CreateTaskCommentHandler(ITasksRepository tasksRepository)
+public sealed class CreateTaskCommentHandler(
+    ITasksRepository tasksRepository,
+    ITasksHistoryRepository tasksHistoryRepository)
     : IRequestHandler<CreateTaskCommentRequest, IResourceCommandResponse>
 {
     public async Task<IResourceCommandResponse> Handle(CreateTaskCommentRequest request,
@@ -22,6 +24,15 @@ public sealed class CreateTaskCommentHandler(ITasksRepository tasksRepository)
             );
         }
 
+        await tasksHistoryRepository.CreateAsync(new TaskHistory
+        {
+            Id = Guid.NewGuid(),
+            ModifiedTaskId = task.Id,
+            ModifierId = Guid.NewGuid(), //todo: user-id
+            ModifiedAt = DateTime.UtcNow,
+            TaskLastState = task
+        });
+
         task.Comments.Add(new Comment()
         {
             Text = request.Text,
@@ -30,7 +41,7 @@ public sealed class CreateTaskCommentHandler(ITasksRepository tasksRepository)
         });
 
         await tasksRepository.UpdateAsync(task);
-
+        
         return new ResourceCommandOnSuccessResponse()
         {
             ResourceId = task.Id
