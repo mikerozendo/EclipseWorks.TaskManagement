@@ -24,7 +24,7 @@ public sealed class DeleteTaskByIdHandler(IProjectsRepository projectsRepository
         var project = await projectsRepository.GetByIdAsync(task.ProjectId);
         project.TaskIds.Remove(request.TaskId);
 
-        await tasksRepository.DeleteByIdAsync(task.ProjectId);
+        await tasksRepository.DeleteByIdAsync(request.TaskId);
         await projectsRepository.UpdateAsync(project);
 
         return new ResourceCommandOnSuccessResponse();
