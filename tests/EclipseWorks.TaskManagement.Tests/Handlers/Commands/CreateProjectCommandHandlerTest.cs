@@ -27,7 +27,7 @@ public sealed class CreateProjectCommandHandlerTest
     {
         //Arrange
         var request = _fixture.Create<CreateProjectRequest>();
-        _projectsRepository.InsertAsync(Arg.Any<Project>()).Returns(Task.CompletedTask);
+        _projectsRepository.CreateAsync(Arg.Any<Project>()).Returns(Task.CompletedTask);
 
         //Act
         var response = await _sut.Handle(request, CancellationToken.None);

@@ -8,8 +8,8 @@ using MediatR;
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
 public sealed class CreateProjectTaskHandler(
-    IProjectsRepository projectsRepository,
-    IProjectsHistoryRepository tasksHistoryRepository)
+     IProjectsRepository projectsRepository,
+     ITasksRepository tasksRepository)
     : IRequestHandler<CreateProjectTaskRequest, IResourceCommandResponse>
 {
     public async Task<IResourceCommandResponse> Handle(CreateProjectTaskRequest request,
@@ -24,7 +24,7 @@ public sealed class CreateProjectTaskHandler(
             );
         }
 
-        if (project.Tasks.Count >= 20)
+        if (project.TaskIds.Count >= 20)
         {
             return new ResourceCommandOnErrorResponse(
                 HttpStatusCode.UnprocessableEntity,
@@ -32,16 +32,7 @@ public sealed class CreateProjectTaskHandler(
             );
         }
 
-        var projectHistory = new ProjectHistory()
-        {
-            Id = Guid.NewGuid(),
-            ModifiedAt = DateTime.UtcNow,
-            ModifierId = Guid.NewGuid(),
-            ProjectLastState = project,
-            ProjectId = project.Id
-        };
-
-        project.Tasks.Add(new ProjectTask()
+        var requestedTask = new ProjectTask
         {
             Description = request.Description,
             Id = Guid.NewGuid(),
@@ -50,14 +41,16 @@ public sealed class CreateProjectTaskHandler(
             DueDate = request.DueDate,
             Status = request.TaskStatus,
             Priority = request.TaskPriority,
-        });
-
+        };
+        
+        project.TaskIds.Add(requestedTask.Id);
+        
         await projectsRepository.UpdateAsync(project);
-        await tasksHistoryRepository.InsertAsync(projectHistory);
+        await tasksRepository.CreateAsync(requestedTask);
 
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = projectHistory.Id,
+            ResourceId = requestedTask.Id,
         };
     }
 }

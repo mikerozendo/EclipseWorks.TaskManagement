@@ -12,11 +12,11 @@ public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
     public async Task<IResourceCommandResponse> Handle(CreateProjectRequest request,
         CancellationToken cancellationToken)
     {
-        await repository.InsertAsync(new Project()
+        await repository.CreateAsync(new Project
         {
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
-            Tasks = []
+            TaskIds = []
         });
 
         return new ResourceCommandOnSuccessResponse()

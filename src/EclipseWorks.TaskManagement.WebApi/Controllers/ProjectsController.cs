@@ -33,16 +33,29 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }
 
-    [HttpPut]
-    [Route("/tasks")]
-    public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
-    {
-        var response = await mediator.Send(createProjectTaskRequest);
-
-        if (response.Success) 
-            return Created();
-
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
-    }
+    // [HttpPut]
+    // [Route("/tasks")]
+    // public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
+    // {
+    //     var response = await mediator.Send(createProjectTaskRequest);
+    //
+    //     if (response.Success) 
+    //         return Created();
+    //
+    //     var error = (ResourceCommandOnErrorResponse)response;
+    //     return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    // }
+    
+    // [HttpPut]
+    // [Route("/tasks")]
+    // public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
+    // {
+    //     var response = await mediator.Send(createProjectTaskRequest);
+    //
+    //     if (response.Success) 
+    //         return Created();
+    //
+    //     var error = (ResourceCommandOnErrorResponse)response;
+    //     return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    // }
 }

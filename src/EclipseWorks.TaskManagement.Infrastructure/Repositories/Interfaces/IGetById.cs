@@ -2,7 +2,7 @@
 
 namespace EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 
-public interface IProjectsRepository :
-    IGetById<Project>,
-    ICreate<Project>,
-    IUpdate<Project>;
+public interface IGetById<T> where T : IEntity
+{
+    Task<T?> GetByIdAsync(Guid id);
+}

@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace EclipseWorks.TaskManagement.Models;
 
-public sealed class ProjectTask
+public sealed class ProjectTask : IEntity
 {
     [BsonId]
     [BsonRepresentation(BsonType.String)]

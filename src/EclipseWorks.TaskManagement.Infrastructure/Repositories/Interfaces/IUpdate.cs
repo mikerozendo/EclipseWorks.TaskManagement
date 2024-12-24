@@ -2,7 +2,7 @@
 
 namespace EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 
-public interface IProjectsHistoryRepository
+public interface IUpdate<in T> where T : IEntity
 {
-    Task InsertAsync(ProjectHistory projectHistory);
+    Task UpdateAsync(T entity);
 }

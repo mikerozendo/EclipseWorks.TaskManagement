@@ -14,7 +14,7 @@ namespace EclipseWorks.TaskManagement.Tests.Handlers.Commands;
 public sealed class CreateProjectTaskHandlerTest
 {
     private readonly CreateProjectTaskHandler _sut;
-    private readonly IProjectsHistoryRepository _projectsHistoryRepository;
+    private readonly ITasksRepository _tasksRepository;
     private readonly IProjectsRepository _projectsRepository;
     private readonly Fixture _fixture;
 
@@ -22,8 +22,8 @@ public sealed class CreateProjectTaskHandlerTest
     {
         _fixture = Substitute.For<Fixture>();
         _projectsRepository = Substitute.For<IProjectsRepository>();
-        _projectsHistoryRepository = Substitute.For<IProjectsHistoryRepository>();
-        _sut = new CreateProjectTaskHandler(_projectsRepository, _projectsHistoryRepository);
+        _tasksRepository = Substitute.For<ITasksRepository>();
+        _sut = new CreateProjectTaskHandler(_projectsRepository, _tasksRepository);
     }
 
     [Fact]
@@ -48,12 +48,14 @@ public sealed class CreateProjectTaskHandlerTest
     {
         //Arrange
         var projectTasks = _fixture.CreateMany<ProjectTask>(20).ToList();
+        var projectTasksIds = projectTasks.Select(x => x.Id).ToList();
+        
         var filteredProject = _fixture.Build<Project>()
-            .With(x => x.Tasks, projectTasks)
+            .With(x => x.TaskIds, projectTasksIds)
             .Create();
 
         _projectsRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(filteredProject);
-
+        
         var request = _fixture.Create<CreateProjectTaskRequest>();
 
         //Act
@@ -88,16 +90,23 @@ public sealed class CreateProjectTaskHandlerTest
     public async Task Handle_WithValidScenario_ReturnsSuccess(int tasksCount)
     {
         //Arrange
-        var projectTasks = _fixture.CreateMany<ProjectTask>(tasksCount).ToList();
+        var projectTasks = _fixture.CreateMany<ProjectTask>(tasksCount)
+            .ToList();
+        
+        var projectTasksIds = projectTasks
+            .Select(x => x.Id)
+            .ToList();
+        
+
         var filteredProject = _fixture.Build<Project>()
-            .With(x => x.Tasks, projectTasks)
+            .With(x => x.TaskIds, projectTasksIds)
             .Create();
 
         _projectsRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(filteredProject);
 
         var request = _fixture.Create<CreateProjectTaskRequest>();
-        _projectsRepository.InsertAsync(Arg.Any<Project>()).Returns(Task.CompletedTask);
-        _projectsHistoryRepository.InsertAsync(Arg.Any<ProjectHistory>()).Returns(Task.CompletedTask);
+        _projectsRepository.UpdateAsync(Arg.Any<Project>()).Returns(Task.CompletedTask);
+        _tasksRepository.CreateAsync(Arg.Any<ProjectTask>()).Returns(Task.CompletedTask);
 
         //Act
         var handlerResponse = await _sut.Handle(request, CancellationToken.None);

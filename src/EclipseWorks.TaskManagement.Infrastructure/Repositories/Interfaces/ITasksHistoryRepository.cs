@@ -2,7 +2,6 @@
 
 namespace EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 
-public interface IProjectsRepository :
-    IGetById<Project>,
-    ICreate<Project>,
-    IUpdate<Project>;
+public interface ITasksHistoryRepository :
+    IGetById<TaskHistory>,
+    ICreate<TaskHistory>;

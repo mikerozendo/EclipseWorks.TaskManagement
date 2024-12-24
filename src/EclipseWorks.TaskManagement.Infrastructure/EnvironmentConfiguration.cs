@@ -15,5 +15,6 @@ public record MongoDbConfiguration(
 public record CollectionsConfig
 {
     public required string Projects { get; init; }
-    public required string ProjectsHistory { get; init; }
+    public required string TasksHistory { get; init; }
+    public required string Tasks { get; init; }
 }

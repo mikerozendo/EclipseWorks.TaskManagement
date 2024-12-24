@@ -13,10 +13,10 @@ public sealed class ProjectsRepository(EnvironmentConfiguration environmentConfi
 {
     public async Task UpdateAsync(Project record)
     {
-        var filter = MongoDB.Driver.Builders<Project>.Filter.Eq("Id", record.Id);
+        var filter = Builders<Project>.Filter.Eq("Id", record.Id);
         await Collection.ReplaceOneAsync(filter, record);
     }
-    
+
     public async Task<Project> GetByIdAsync(Guid id)
     {
         return await Collection
@@ -24,8 +24,13 @@ public sealed class ProjectsRepository(EnvironmentConfiguration environmentConfi
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task InsertAsync(Project record)
+    public async Task CreateAsync(Project record)
     {
         await Collection.InsertOneAsync(record);
+    }
+
+    public Task UpdateAsync(ProjectTask entity)
+    {
+        throw new NotImplementedException();
     }
 }
