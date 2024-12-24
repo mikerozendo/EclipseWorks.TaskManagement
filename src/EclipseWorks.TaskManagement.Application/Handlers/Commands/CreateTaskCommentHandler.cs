@@ -7,9 +7,7 @@ using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Commands;
 
-public sealed class CreateTaskCommentHandler(
-    ITasksRepository tasksRepository,
-    ITasksHistoryRepository tasksHistoryRepository)
+public sealed class CreateTaskCommentHandler(ITasksRepository tasksRepository)
     : IRequestHandler<CreateTaskCommentRequest, IResourceCommandResponse>
 {
     public async Task<IResourceCommandResponse> Handle(CreateTaskCommentRequest request,
