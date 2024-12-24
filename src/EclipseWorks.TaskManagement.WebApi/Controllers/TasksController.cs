@@ -9,21 +9,19 @@ namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 [Route("api/v1/tasks")]
 public sealed class TasksController(IMediator mediator) : ControllerBase
 {
-    // [HttpPut]
-    // [Route("/tasks")]
-    // public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
-    // {
-    //     var response = await mediator.Send(createProjectTaskRequest);
-    //
-    //     if (response.Success) 
-    //         return Created();
-    //
-    //     var error = (ResourceCommandOnErrorResponse)response;
-    //     return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
-    // }
+    [HttpGet]
+    [Route("{taskId:guid}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid taskId)
+    {
+        var response = await mediator.Send(new GetProjectTaskByIdRequest(taskId));
+
+        if (response.Resource is null)
+            return NotFound();
+
+        return Ok(response.Resource);
+    }
     
     [HttpPost]
-    [Route("/tasks")]
     public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
     {
         var response = await mediator.Send(createProjectTaskRequest);
