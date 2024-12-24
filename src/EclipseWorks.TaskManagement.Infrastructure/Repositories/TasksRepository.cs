@@ -27,4 +27,7 @@ public sealed class TasksRepository(EnvironmentConfiguration environmentConfigur
             .AsQueryable()
             .Where(task => task.ProjectId == projectId)
             .ToListAsync();
+
+    public async Task DeleteByIdAsync(Guid taskId) 
+        => await Collection.DeleteOneAsync(task => task.Id == taskId);
 }

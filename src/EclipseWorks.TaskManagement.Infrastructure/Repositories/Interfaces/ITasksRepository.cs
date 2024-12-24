@@ -8,4 +8,5 @@ public interface ITasksRepository :
     IUpdate<ProjectTask>
 {
     Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(Guid projectId);
+    Task DeleteByIdAsync(Guid taskId);
 }
