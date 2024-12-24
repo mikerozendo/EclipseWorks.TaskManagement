@@ -9,7 +9,6 @@ public sealed class TaskHistory : IEntity
     [BsonRepresentation(BsonType.String)]
     public required Guid Id { get; set; }
     
-    [BsonId]
     [BsonRepresentation(BsonType.String)]
     public required Guid ModifiedTaskId { get; set; }
     

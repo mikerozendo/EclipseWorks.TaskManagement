@@ -9,7 +9,6 @@ public sealed class ProjectTask : IEntity
     [BsonRepresentation(BsonType.String)]
     public required Guid Id { get; set; }
     
-    [BsonId]
     [BsonRepresentation(BsonType.String)]
     public required Guid ProjectId { get; set; }
     
