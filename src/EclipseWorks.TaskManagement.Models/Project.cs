@@ -11,9 +11,10 @@ public sealed class Project : IEntity
 
     [BsonRepresentation(BsonType.String)] 
     public List<Guid> TaskIds { get; init; } = [];
-    
-    [BsonIgnore]
+
+    [BsonIgnore] 
     public List<ProjectTask> Tasks { get; init; } = [];
-    
+
     public required DateTime CreatedAt { get; set; }
+    public required ProjectStatus ProjectStatus { get; set; }
 }
