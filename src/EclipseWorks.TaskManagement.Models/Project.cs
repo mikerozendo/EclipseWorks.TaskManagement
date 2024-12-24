@@ -9,5 +9,5 @@ public sealed class Project : IEntity
     [BsonRepresentation(BsonType.String)]
     public required Guid Id { get; set; }
     public required DateTime CreatedAt { get; set; }
-    public List<Guid> TaskIds { get; set; } = [];
+    [BsonRepresentation(BsonType.String)] public List<Guid> TaskIds { get; init; } = [];
 }

@@ -14,11 +14,11 @@ public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
     {
         var project = new Project
         {
-            Id = Guid.NewGuid(),
+            Id = request.Id,
             CreatedAt = DateTime.UtcNow,
             TaskIds = []
         };
-        
+
         await repository.CreateAsync(project);
 
         return new ResourceCommandOnSuccessResponse()

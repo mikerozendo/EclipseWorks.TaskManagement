@@ -16,19 +16,27 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
         var response = await mediator.Send(new GetProjectByIdQueryRequest(projectId));
 
         if (response.Resource is null)
-            NotFound();
+            return NotFound();
 
         return Ok(response.Resource);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateProjectRequest createProjectRequest)
+    public async Task<IActionResult> Post()
     {
-        var response = await mediator.Send(createProjectRequest);
+        var response = await mediator.Send(new CreateProjectRequest
+        {
+            Id = Guid.NewGuid(),
+        });
 
         if (response.Success)
-            return CreatedAtAction(nameof(GetById), response);
-
+        {
+            return CreatedAtAction(
+                nameof(GetById),
+                new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
+            );
+        }
+        
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }
