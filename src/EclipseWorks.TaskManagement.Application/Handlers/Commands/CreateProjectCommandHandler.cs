@@ -16,6 +16,7 @@ public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
         {
             Id = request.Id,
             CreatedAt = DateTime.UtcNow,
+            ProjectStatus = ProjectStatus.Created,
             TaskIds = []
         };
 

@@ -16,13 +16,15 @@ public sealed class CreateTaskCommentHandlerTest
 {
     private readonly CreateTaskCommentHandler _sut;
     private readonly ITasksRepository _tasksRepository;
+    private readonly ITasksHistoryRepository _tasksHistoryRepository;
     private readonly Fixture _fixture;
 
     public CreateTaskCommentHandlerTest()
     {
         _fixture = Substitute.For<Fixture>();
         _tasksRepository = Substitute.For<ITasksRepository>();
-        _sut = new CreateTaskCommentHandler(_tasksRepository);
+        _tasksHistoryRepository = Substitute.For<ITasksHistoryRepository>();
+        _sut = new CreateTaskCommentHandler(_tasksRepository, _tasksHistoryRepository);
     }
 
     [Fact]
@@ -30,6 +32,7 @@ public sealed class CreateTaskCommentHandlerTest
     {
         //Arrange
         var request = _fixture.Create<CreateTaskCommentRequest>();
+        
         _tasksRepository.GetByIdAsync(Arg.Any<Guid>()).ReturnsNull();
 
         //Act
@@ -46,8 +49,10 @@ public sealed class CreateTaskCommentHandlerTest
         //Arrange
         var request = _fixture.Create<CreateTaskCommentRequest>();
         var filteredTask = _fixture.Create<ProjectTask>();
+        
         _tasksRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(filteredTask);
-
+        _tasksHistoryRepository.CreateAsync(Arg.Any<TaskHistory>()).Returns(Task.CompletedTask);
+        
         //Act
         var response = await _sut.Handle(request, CancellationToken.None);
 

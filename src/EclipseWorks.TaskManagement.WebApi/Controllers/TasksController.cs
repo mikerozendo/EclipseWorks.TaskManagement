@@ -72,4 +72,20 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }
+    
+    [HttpDelete]
+    [Route("{taskId:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid taskId)
+    {
+        var response = await mediator.Send(new DeleteTaskByIdRequest
+        {
+            TaskId = taskId,
+        });
+
+        if (response.Success)
+            return NoContent();
+
+        var error = (ResourceCommandOnErrorResponse)response;
+        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    }
 }

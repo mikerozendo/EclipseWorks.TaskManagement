@@ -23,7 +23,7 @@ public sealed class CreateProjectCommandHandlerTest
     }
 
     [Fact]
-    public async Task Handle_WithValidDate_ReturnsSuccessResponse()
+    public async Task Handle_ReturnsSuccessResponse()
     {
         //Arrange
         var request = _fixture.Create<CreateProjectRequest>();
