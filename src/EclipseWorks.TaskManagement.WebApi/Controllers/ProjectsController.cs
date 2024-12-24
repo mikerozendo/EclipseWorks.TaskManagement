@@ -6,16 +6,37 @@ using Microsoft.AspNetCore.Mvc;
 namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/projects")]
 public sealed class ProjectsController(IMediator mediator) : ControllerBase
 {
-    [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateProjectRequest createProjectRequest)
+    [HttpGet]
+    [Route("{projectId:guid}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid projectId)
     {
-        var response = await mediator.Send(createProjectRequest);
+        var response = await mediator.Send(new GetProjectByIdQueryRequest(projectId));
 
-        if (response.Success) return Created();
+        if (response.Resource is null)
+            return NotFound();
 
+        return Ok(response.Resource);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post()
+    {
+        var response = await mediator.Send(new CreateProjectRequest
+        {
+            Id = Guid.NewGuid(),
+        });
+
+        if (response.Success)
+        {
+            return CreatedAtAction(
+                nameof(GetById),
+                new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
+            );
+        }
+        
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }

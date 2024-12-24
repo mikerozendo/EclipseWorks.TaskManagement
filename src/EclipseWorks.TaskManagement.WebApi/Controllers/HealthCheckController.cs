@@ -3,7 +3,7 @@
 namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/health-check")]
 public sealed class HealthCheckController : ControllerBase
 {
     [HttpGet]
