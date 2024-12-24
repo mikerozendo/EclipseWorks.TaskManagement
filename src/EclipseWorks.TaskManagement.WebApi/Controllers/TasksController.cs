@@ -1,5 +1,6 @@
 ﻿using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
+using EclipseWorks.TaskManagement.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,15 +21,32 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
 
         return Ok(response.Resource);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateProjectTaskRequest createProjectTaskRequest)
     {
         var response = await mediator.Send(createProjectTaskRequest);
-    
-        if (response.Success) 
+
+        if (response.Success)
             return Created();
-    
+
+        var error = (ResourceCommandOnErrorResponse)response;
+        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+    }
+
+    [HttpPatch]
+    [Route("{taskId:guid}/status")]
+    public async Task<IActionResult> UpdateTaskStatus([FromRoute] Guid taskId, [FromBody] ProjectTaskStatus taskStatus)
+    {
+        var response = await mediator.Send(new UpdateTaskStatusRequest
+        {
+            TaskId = taskId,
+            ProjectTaskStatus = taskStatus
+        });
+
+        if (response.Success)
+            return Accepted();
+
         var error = (ResourceCommandOnErrorResponse)response;
         return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
     }

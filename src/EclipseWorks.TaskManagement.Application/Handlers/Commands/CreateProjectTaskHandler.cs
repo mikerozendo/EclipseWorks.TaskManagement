@@ -39,8 +39,9 @@ public sealed class CreateProjectTaskHandler(
             Title = request.Title,
             CreatedAt = DateTime.UtcNow,
             DueDate = request.DueDate,
-            Status = request.TaskStatus,
+            Status = request.ProjectTaskStatus,
             Priority = request.TaskPriority,
+            ProjectId = project.Id,
         };
         
         project.TaskIds.Add(requestedTask.Id);
