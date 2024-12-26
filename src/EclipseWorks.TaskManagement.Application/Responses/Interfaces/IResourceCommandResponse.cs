@@ -1,4 +1,4 @@
-﻿namespace EclipseWorks.TaskManagement.Application.Responses;
+﻿namespace EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 
 public interface IResourceCommandResponse : IResourceResponse
 {
