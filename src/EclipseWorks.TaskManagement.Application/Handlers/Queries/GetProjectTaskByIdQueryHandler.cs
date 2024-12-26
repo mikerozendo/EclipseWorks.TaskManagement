@@ -1,4 +1,5 @@
-﻿using EclipseWorks.TaskManagement.Application.Requests;
+﻿using System.Net;
+using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using MediatR;
@@ -9,9 +10,13 @@ public sealed class GetProjectTaskByIdQueryHandler(ITasksRepository tasksReposit
     : IRequestHandler<GetProjectTaskByIdRequest, ResourceQueryResponse>
 {
     public async Task<ResourceQueryResponse> Handle(GetProjectTaskByIdRequest request,
-        CancellationToken cancellationToken) =>
-        new()
-        {
-            Resource = await tasksRepository.GetByIdAsync(request.ResourceId)
-        };
+        CancellationToken cancellationToken)
+    {
+        var resource = await tasksRepository.GetByIdAsync(request.ResourceId);
+        
+        if (resource is null)
+            return new ResourceQueryResponse(false, HttpStatusCode.NotFound);
+
+        return new ResourceQueryResponse(true, HttpStatusCode.OK, resource);
+    }
 }

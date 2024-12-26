@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
+using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using MediatR;
@@ -44,7 +45,7 @@ public sealed class CreateTaskCommentHandler(
         
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = task.Id
+            Resource = task.Id
         };
     }
 }

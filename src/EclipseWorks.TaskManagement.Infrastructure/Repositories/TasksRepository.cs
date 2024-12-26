@@ -28,6 +28,16 @@ public sealed class TasksRepository(EnvironmentConfiguration environmentConfigur
             .Where(task => task.ProjectId == projectId)
             .ToListAsync();
 
-    public async Task DeleteByIdAsync(Guid taskId) 
+    public async Task DeleteByIdAsync(Guid taskId)
         => await Collection.DeleteOneAsync(task => task.Id == taskId);
+
+    public async Task<IEnumerable<ProjectTask>> GetClosedTasksByPeriodAsync(DateTime startPeriod)
+        => await Collection
+            .AsQueryable()
+            .Where(x =>
+                x.Status >= ProjectTaskStatus.Done &&
+                x.ClosedAt.HasValue &&
+                x.ClosedAt.Value.Date >= startPeriod.Date
+            )
+            .ToListAsync();
 }

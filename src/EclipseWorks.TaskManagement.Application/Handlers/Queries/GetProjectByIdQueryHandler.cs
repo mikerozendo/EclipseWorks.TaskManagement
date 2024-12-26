@@ -1,4 +1,5 @@
-﻿using EclipseWorks.TaskManagement.Application.Requests;
+﻿using System.Net;
+using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using MediatR;
@@ -14,16 +15,13 @@ public sealed class GetProjectByIdQueryHandler(IProjectsRepository projectsRepos
         var filteredProject = await projectsRepository.GetByIdAsync(request.ResourceId);
         if (filteredProject is null)
         {
-            return new ResourceQueryResponse();
+            return new ResourceQueryResponse(false, HttpStatusCode.NotFound);
         }
 
 
         var tasksRelatedToThisProject = await tasksRepository.GetByProjectIdAsync(request.ResourceId);
         filteredProject.Tasks.AddRange(tasksRelatedToThisProject);
 
-        return new ResourceQueryResponse
-        {
-            Resource = filteredProject
-        };
+        return new ResourceQueryResponse(true, HttpStatusCode.OK, filteredProject);
     }
 }
