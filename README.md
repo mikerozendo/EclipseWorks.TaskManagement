@@ -81,6 +81,12 @@ To ensure all functionalities are working correctly, run the automated tests:
 The test results will be displayed in the terminal.
 ---
 
+## Test Coverage
+The project currently has 89% test coverage in the Application layer, as it is where all requests are processed and business rules are validated.
+![TestCoverage](images/testcov.png)
+
+---
+
 ## Contributing to the Project
 
 If you wish to contribute to **EclipseWorks**, follow these steps:
@@ -121,6 +127,7 @@ If you have any questions or encounter any issues, contact us through:
   depending on a `user_id` are marked as TD.
 - **Analytics**: The test specified that the query returning closed task statistics should only allow manager access,
   but this was also marked as TD.
+
   ![TDs](images/TDs.png)
 
 ---
@@ -208,6 +215,11 @@ Para garantir que todas as funcionalidades estão funcionando corretamente, exec
 Os resultados dos testes serão exibidos no terminal.
 ---
 
+## Cobertura de Testes
+O projeto atualmente tem 89% de cobertura de testes na camada de Application, uma vez que é na mesma que todos os requests são processados e as regras de negócio são validadas.
+![TestCoverage](images/testcov.png)
+
+---
 ## Contribuindo para o Projeto
 
 Se você deseja contribuir com o **EclipseWorks**, siga os passos abaixo:
@@ -246,4 +258,5 @@ Caso tenha dúvidas ou encontre algum problema, entre em contato através de:
 - **Id's de usuário**: Precisa refinar melhor qual a solução de Auth para que seja feito um levantamento de como a aplicação iria saber o Id de um usuário, as partes que dependem de um user_id foram marcadas como TD
 
 - **Analytics**: No teste foi solicitado que a consulta que retornaria as estatísticas de tasks fechadas tivesse o acesso liberado sómente ao gerente, porém ficou marcado como TD também
+
   ![TDs](images/TDs.png)
