@@ -1,4 +1,3 @@
-using EclipseWorks.TaskManagement.Application.Behaviors;
 using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories;
@@ -23,8 +22,6 @@ builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssemblyContaining<IResourceResponse>();
 });
 
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ResourceResponseValidationBehavior<,>));
-
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
 builder.Services.AddScoped<ITasksRepository, TasksRepository>();
 builder.Services.AddScoped<ITasksHistoryRepository, TasksHistoryRepository>();
@@ -45,9 +42,5 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// app.UseHttpsRedirection();
-
-// app.UseAuthorization();
 app.MapControllers();
 app.Run();

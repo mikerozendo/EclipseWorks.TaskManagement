@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using EclipseWorks.TaskManagement.Application.Exceptions;
 using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 
 namespace EclipseWorks.TaskManagement.Application.Responses;
