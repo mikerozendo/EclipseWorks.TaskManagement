@@ -10,6 +10,7 @@ public sealed class ResourceResponseValidationBehavior<TRequest, TResponse>
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        //made to throws exception avoiding invalid response configurations by another devs
         var response = await next();
 
         var integerStatusCode = (int)response.HttpStatusCode;

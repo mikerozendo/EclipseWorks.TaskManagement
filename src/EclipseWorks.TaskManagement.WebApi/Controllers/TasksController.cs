@@ -16,7 +16,7 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
     {
         var response = await mediator.Send(new GetProjectTaskByIdRequest(taskId));
 
-        if (response.Resource is null)
+        if (!response.Success)
             return NotFound();
 
         return Ok(response.Resource);
@@ -35,8 +35,7 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
             );
         }
 
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
     }
 
     [HttpPatch]
@@ -49,11 +48,10 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
             ProjectTaskStatus = taskStatus
         });
 
-        if (response.Success)
-            return Accepted();
+        if (!response.Success)
+            return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
 
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        return Accepted();
     }
 
     [HttpPost]
@@ -66,13 +64,12 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
             Text = text
         });
 
-        if (response.Success)
-            return Accepted();
+        if (!response.Success)
+            return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
 
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        return Accepted();
     }
-    
+
     [HttpDelete]
     [Route("{taskId:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid taskId)
@@ -82,10 +79,9 @@ public sealed class TasksController(IMediator mediator) : ControllerBase
             TaskId = taskId,
         });
 
-        if (response.Success)
-            return NoContent();
+        if (!response.Success)
+            return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
 
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        return NoContent();
     }
 }
