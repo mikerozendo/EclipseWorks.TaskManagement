@@ -34,7 +34,12 @@ public sealed class UpdateTaskStatusHandler(
             TaskLastState = task,
         });
 
+
         task.Status = request.ProjectTaskStatus;
+        
+        if (request.ProjectTaskStatus is ProjectTaskStatus.Done) 
+            task.ClosedAt = DateTime.UtcNow;
+
         await tasksRepository.UpdateAsync(task);
 
         return new ResourceCommandOnSuccessResponse()
