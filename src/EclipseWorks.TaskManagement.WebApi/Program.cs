@@ -1,7 +1,9 @@
+using EclipseWorks.TaskManagement.Application.Behavior;
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,13 @@ ArgumentNullException.ThrowIfNull(environmentConfiguration);
 builder.Services.AddSingleton(environmentConfiguration);
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IResourceCommandResponse>());
+
+
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssemblyContaining<IResourceResponse>();
+});
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ResourceResponseValidationBehavior<,>));
 
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
 builder.Services.AddScoped<ITasksRepository, TasksRepository>();

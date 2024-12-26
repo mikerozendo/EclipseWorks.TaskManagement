@@ -1,4 +1,5 @@
 ﻿using EclipseWorks.TaskManagement.Application.Requests;
+using EclipseWorks.TaskManagement.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ public sealed class AnalyticsController(IMediator mediator) : ControllerBase
         var request = new GetAnalyticsForPastDaysRequest(daysAgo);
         var response = await mediator.Send(request);
 
-        if (response.Resource is not null)
+        if (response.Success)
             return Ok(response.Resource);
         
-        return NotFound("No data found");
+        return Problem("No data found in the specified filter",statusCode: (int)response.HttpStatusCode);
     }
 }

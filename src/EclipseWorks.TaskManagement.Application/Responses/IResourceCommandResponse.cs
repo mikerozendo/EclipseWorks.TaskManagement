@@ -1,6 +1,6 @@
 ﻿namespace EclipseWorks.TaskManagement.Application.Responses;
 
-public interface IResourceCommandResponse
+public interface IResourceCommandResponse : IResourceResponse
 {
-    bool Success { get; set; }
+    public string? Details { get; set; }
 }

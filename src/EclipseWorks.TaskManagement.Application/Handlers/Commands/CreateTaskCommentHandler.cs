@@ -44,7 +44,7 @@ public sealed class CreateTaskCommentHandler(
         
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = task.Id
+            Resource = task.Id
         };
     }
 }

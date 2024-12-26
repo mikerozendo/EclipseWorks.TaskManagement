@@ -51,7 +51,7 @@ public sealed class CreateProjectTaskHandler(
 
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = requestedTask.Id,
+            Resource = requestedTask.Id,
         };
     }
 }

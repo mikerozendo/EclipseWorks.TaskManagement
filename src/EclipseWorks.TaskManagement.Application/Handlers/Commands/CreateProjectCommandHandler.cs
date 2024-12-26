@@ -24,7 +24,7 @@ public sealed class CreateProjectCommandHandler(IProjectsRepository repository)
 
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = project.Id
+            Resource = project.Id
         };
     }
 }

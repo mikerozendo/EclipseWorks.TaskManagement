@@ -38,7 +38,7 @@ public sealed class UpdateTaskStatusHandler(
 
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = task.Id
+            Resource = task.Id
         };
     }
 }

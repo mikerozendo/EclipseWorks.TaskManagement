@@ -33,7 +33,7 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
         {
             return CreatedAtAction(
                 nameof(GetById),
-                new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
+                new { projectId = ((ResourceCommandOnSuccessResponse)response).Resource }, response
             );
         }
 

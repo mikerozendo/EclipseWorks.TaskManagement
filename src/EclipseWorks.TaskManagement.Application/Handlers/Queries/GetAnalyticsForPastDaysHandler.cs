@@ -1,4 +1,5 @@
-﻿using EclipseWorks.TaskManagement.Application.Requests;
+﻿using System.Net;
+using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using MediatR;
@@ -6,15 +7,15 @@ using MediatR;
 namespace EclipseWorks.TaskManagement.Application.Handlers.Queries;
 
 public sealed class GetAnalyticsForPastDaysHandler(ITasksRepository tasksRepository)
-    : IRequestHandler<GetAnalyticsForPastDaysRequest, ResourceQueryResponse>
+    : IRequestHandler<GetAnalyticsForPastDaysRequest, IResourceResponse>
 {
-    public async Task<ResourceQueryResponse> Handle(GetAnalyticsForPastDaysRequest request,
+    public async Task<IResourceResponse> Handle(GetAnalyticsForPastDaysRequest request,
         CancellationToken cancellationToken)
     {
         var closedInTheLastDays = (await tasksRepository.GetClosedTasksByPeriodAsync(request.StartDate)).ToList();
 
         var closedTasksCount = closedInTheLastDays.Count;
-        
+
         var response = closedInTheLastDays
             .GroupBy(x => x.UserId)
             .Select(closedTask => new GetAnalyticsForPastDaysResponse()
@@ -24,9 +25,11 @@ public sealed class GetAnalyticsForPastDaysHandler(ITasksRepository tasksReposit
                 TaskCompletionRate = Math.Round((decimal)closedTask.Count() / closedTasksCount * 100, 2)
             }).ToList();
 
-        return new ResourceQueryResponse()
+        if (response.Count == 0)
         {
-            Resource = response
-        };
+            return new ResourceQueryResponse(false, HttpStatusCode.NotFound);
+        }
+
+        return new ResourceQueryResponse(true, HttpStatusCode.OK, response);
     }
 }
