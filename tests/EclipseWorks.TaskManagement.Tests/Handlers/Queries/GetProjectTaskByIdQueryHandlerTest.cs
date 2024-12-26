@@ -1,9 +1,11 @@
-﻿using AutoFixture;
+﻿using System.Net;
+using AutoFixture;
 using EclipseWorks.TaskManagement.Application.Handlers.Queries;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Shouldly;
 using Xunit;
 
@@ -22,7 +24,7 @@ public class GetProjectTaskByIdQueryHandlerTest
     }
 
     [Fact]
-    public async Task Handle_WithValidDate_ReturnsSuccessResponse()
+    public async Task Handle_WithExistingProject_ReturnsSuccessResponse()
     {
         //Arrange
         var request = _fixture.Create<GetProjectTaskByIdRequest>();
@@ -34,5 +36,20 @@ public class GetProjectTaskByIdQueryHandlerTest
 
         //Assert
         response.ShouldNotBeNull().Resource.ShouldNotBeNull().ShouldBeOfType<ProjectTask>();
+    }
+    
+    [Fact]
+    public async Task Handle_WithNonExistingProject_ReturnsFailure()
+    {
+        //Arrange
+        var request = _fixture.Create<GetProjectTaskByIdRequest>();
+        _taskRepository.GetByIdAsync(Arg.Any<Guid>()).ReturnsNull();
+
+        //Act
+        var response = await _sut.Handle(request, CancellationToken.None);
+
+        //Assert
+        response.Resource.ShouldBeNull();
+        response.HttpStatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 }

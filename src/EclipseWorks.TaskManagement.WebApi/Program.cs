@@ -1,4 +1,4 @@
-using EclipseWorks.TaskManagement.Application.Behavior;
+using EclipseWorks.TaskManagement.Application.Behaviors;
 using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure;

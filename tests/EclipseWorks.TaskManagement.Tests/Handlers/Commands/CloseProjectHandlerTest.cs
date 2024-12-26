@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Net;
+using AutoFixture;
 using EclipseWorks.TaskManagement.Application.Handlers.Commands;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
@@ -39,6 +40,8 @@ public sealed class CloseProjectHandlerTest
 
         //Assert
         result.ShouldBeOfType<ResourceCommandOnErrorResponse>();
+        result.HttpStatusCode.ShouldBe(HttpStatusCode.UnprocessableContent);
+        result.Resource.ShouldBeNull();
     }
 
     [Fact]
@@ -87,6 +90,8 @@ public sealed class CloseProjectHandlerTest
 
         //Assert
         result.ShouldBeOfType<ResourceCommandOnErrorResponse>();
+        result.HttpStatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        result.Resource.ShouldBeNull();
     }
 
     [Fact]
@@ -116,5 +121,7 @@ public sealed class CloseProjectHandlerTest
 
         //Assert
         result.ShouldBeOfType<ResourceCommandOnErrorResponse>();
+        result.HttpStatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        result.Resource.ShouldBeNull();
     }
 }

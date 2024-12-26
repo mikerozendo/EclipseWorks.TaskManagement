@@ -39,7 +39,7 @@ public sealed class CloseProjectHandler(
 
         return new ResourceCommandOnSuccessResponse()
         {
-            Resource = project.Id
+            Resource = project.Id,
         };
     }
 }
