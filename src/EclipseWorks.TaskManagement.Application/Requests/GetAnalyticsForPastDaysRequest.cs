@@ -1,9 +1,9 @@
-﻿using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
+﻿using EclipseWorks.TaskManagement.Application.Responses;
 using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Requests;
 
-public sealed class GetAnalyticsForPastDaysRequest(int days) : IRequest<IResourceResponse>
+public sealed class GetAnalyticsForPastDaysRequest(int days) : IRequest<ResourceQueryResponse>
 {
     public int Days { get; set; } = days;
 

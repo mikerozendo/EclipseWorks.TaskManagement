@@ -1,16 +1,15 @@
 ﻿using System.Net;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
-using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Handlers.Queries;
 
 public sealed class GetAnalyticsForPastDaysHandler(ITasksRepository tasksRepository)
-    : IRequestHandler<GetAnalyticsForPastDaysRequest, IResourceResponse>
+    : IRequestHandler<GetAnalyticsForPastDaysRequest, ResourceQueryResponse>
 {
-    public async Task<IResourceResponse> Handle(GetAnalyticsForPastDaysRequest request,
+    public async Task<ResourceQueryResponse> Handle(GetAnalyticsForPastDaysRequest request,
         CancellationToken cancellationToken)
     {
         var closedInTheLastDays = (await tasksRepository.GetClosedTasksByPeriodAsync(request.StartDate)).ToList();
