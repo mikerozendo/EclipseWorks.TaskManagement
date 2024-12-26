@@ -43,6 +43,7 @@ public sealed class CreateProjectTaskHandler(
             Status = request.ProjectTaskStatus,
             Priority = request.TaskPriority,
             ProjectId = project.Id,
+            UserId = Guid.NewGuid() //todo: user_id
         };
         
         project.TaskIds.Add(requestedTask.Id);
