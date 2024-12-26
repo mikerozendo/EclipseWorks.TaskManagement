@@ -1,9 +1,9 @@
 using EclipseWorks.TaskManagement.Application.Behaviors;
-using EclipseWorks.TaskManagement.Application.Responses;
 using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
+using System.Text.Json.Serialization;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +32,8 @@ builder.Services.AddScoped<ITasksHistoryRepository, TasksHistoryRepository>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
 if (Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true")
