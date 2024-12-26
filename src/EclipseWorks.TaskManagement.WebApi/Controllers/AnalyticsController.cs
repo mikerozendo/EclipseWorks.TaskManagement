@@ -6,13 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 
-// [Authorize(Roles = "gerente")]
+// todo: [Authorize(Roles = "gerente")]
 [ApiController]
 [Route("api/v1/analytics")]
 public sealed class AnalyticsController(IMediator mediator) : ControllerBase
 {
+    /// <summary>
+    /// Retrieves analytical data for the last thirty days period.
+    /// </summary>
+    /// <returns>
+    /// An IActionResult containing the analytical data if successful;
+    /// otherwise, an error response indicating that no data was found for the specified filter.
+    /// </returns>
     [HttpGet]
     [Route("last-thirty-days")]
+    [ProducesResponseType(typeof(ResourceQueryResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResourceQueryResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByPeriod()
     {
         var response = await mediator.Send(new GetAnalyticsForPastDaysRequest());
