@@ -1,5 +1,132 @@
 # EclipseWorks
 
+## English 🇺🇸
+
+# Technical Documentation - EclipseWorks Project
+
+## Project Overview
+
+The **EclipseWorks** system is developed using modern technologies like **ASP.NET Core** and **MongoDb**.
+The database can be configured and run in a container using **Docker Compose**.
+This document describes the steps necessary to configure, run, and understand this project.
+---
+
+## Prerequisites
+
+Before starting, make sure the following tools are installed on your machine:
+
+1. [.NET 8.0 SDK](https://dotnet.microsoft.com/download)
+2. [Docker](https://www.docker.com/products/docker-desktop/)
+3. [Docker Compose](https://docs.docker.com/compose/)
+
+---
+
+## Project Structure
+
+The project has the following directory structure:
+
+```
+/EclipseWorks
+│
+├── .gitignore                    # Git exclusion file
+├── docker-compose.yaml           # Docker Compose configuration
+├── Dockerfile                    # Basic Docker configuration
+├── README.md                     # Project's main documentation
+├── EclipseWorks.TaskManagement.sln # Project solution file
+│
+├── /src
+│   ├── /EclipseWorks.TaskManagement.Application  # Application layer (handlers, requests, responses)
+│   ├── /EclipseWorks.TaskManagement.Infrastructure # Infrastructure and application configuration
+│   ├── /EclipseWorks.TaskManagement.Models       # Models and data contracts
+│   └── /EclipseWorks.TaskManagement.WebApi       # Main API (controllers and configuration)
+│
+├── /tests
+│   └── /EclipseWorks.TaskManagement.Tests        # Tests
+│
+```
+
+---
+
+## Setting Up the Environment
+
+To set up the environment, follow the steps below:
+
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/mikerozendo/EclipseWorks.TaskManagement.git
+   cd EclipseWorks
+   ```
+2. Make sure **Docker Desktop** is running and Docker Compose support is enabled.
+3. In the root directory, run the following command to start the containers:
+   ```bash
+   docker-compose up -d
+   ```
+4. Check if the API is available by accessing `http://localhost:8080/swagger/index.html` in your browser.
+
+---
+
+## Running Tests
+
+To ensure all functionalities are working correctly, run the automated tests:
+
+1. In the root directory, navigate to the tests project:
+   ```bash
+   cd src/EclipseWorks.Tests
+   ```
+2. Run the tests with the following command:
+   ```bash
+   dotnet test
+   ```
+
+The test results will be displayed in the terminal.
+---
+
+## Contributing to the Project
+
+If you wish to contribute to **EclipseWorks**, follow these steps:
+
+1. Create a fork of the repository to your personal account.
+2. Make your changes in a new branch, using naming conventions like `feature/<FEATURE_NAME>` or
+   `bugfix/<FIX_DESCRIPTION>`.
+3. Ensure to run all tests before submitting your contribution.
+4. Submit a pull request detailing the changes made.
+
+---
+
+## Contact Us
+
+If you have any questions or encounter any issues, contact us through:
+
+- Email: mikerozendo@gmail.com
+- GitHub Issues: [EclipseWorks Issues Page](https://github.com/mikerozendo/EclipseWorks.TaskManagement/issues)
+
+---
+
+### Technical Decisions
+
+- **ASP.NET Core Usage**: Chosen for its high performance and native integration with other tools in the .NET ecosystem.
+- **MongoDB as Database**: Chosen due to its flexibility and the requirement for historical data creation as part of the
+  test.
+- **Containerization with Docker**: Used for consistency in the development and deployment environment.
+- **Docker Compose**: Chosen for its ease of handling multiple containers and enabling work between the API and
+  Database.
+- [MediatR](https://github.com/jbogard/MediatR): Used to facilitate the implementation of the Mediator pattern, also
+  chosen for its simplicity in building an application.
+
+### Technical Debts
+
+- **Application Monitoring**: Lacks a robust solution for monitoring in production, such as integration with
+  observability tools.
+- **User IDs**: Needs a better auth solution to determine how the application will recognize a user's ID. Parts
+  depending on a `user_id` are marked as TD.
+- **Analytics**: The test specified that the query returning closed task statistics should only allow manager access,
+  but this was also marked as TD.
+  ![TDs](images/TDs.png)
+
+---
+
+## Português 🇧🇷
+
 # Documento Técnico - Projeto EclipseWorks
 
 ## Visão Geral do Projeto
@@ -61,7 +188,7 @@ Para configurar o ambiente, siga os passos abaixo:
    ```bash
    docker-compose up -d
    ```
-4. Verifique se a API está disponível acessando `http://localhost:8080` em seu navegador.
+4. Verifique se a API está disponível acessando `http://localhost:8080/swagger/index.html` em seu navegador.
 
 ---
 
