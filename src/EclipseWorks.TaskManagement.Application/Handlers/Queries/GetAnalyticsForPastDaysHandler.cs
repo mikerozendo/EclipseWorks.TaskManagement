@@ -22,7 +22,7 @@ public sealed class GetAnalyticsForPastDaysHandler(ITasksRepository tasksReposit
             {
                 ClosedTasks = closedTask.Count(),
                 UserId = closedTask.Key,
-                TaskCompletionRate = Math.Round((decimal)closedTask.Count() / closedTasksCount * 100, 2)
+                TaskCompletionRatePercentage = Math.Round((decimal)closedTask.Count() / closedTasksCount * 100, 2)
             }).ToList();
 
         if (response.Count == 0)
