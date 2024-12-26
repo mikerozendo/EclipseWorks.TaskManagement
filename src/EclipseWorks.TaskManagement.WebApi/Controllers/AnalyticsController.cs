@@ -12,18 +12,14 @@ namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 public sealed class AnalyticsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    [Route("by-period/{daysAgo:int}")]
-    public async Task<IActionResult> GetByPeriod(int daysAgo)
+    [Route("last-thirty-days")]
+    public async Task<IActionResult> GetByPeriod()
     {
-        if (daysAgo <= 0)
-            return BadRequest();
-        
-        var request = new GetAnalyticsForPastDaysRequest(daysAgo);
-        var response = await mediator.Send(request);
+        var response = await mediator.Send(new GetAnalyticsForPastDaysRequest());
 
         if (response.Success)
             return Ok(response.Resource);
-        
-        return Problem("No data found in the specified filter",statusCode: (int)response.HttpStatusCode);
+
+        return Problem("No data found in the specified filter", statusCode: (int)response.HttpStatusCode);
     }
 }

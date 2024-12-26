@@ -48,7 +48,7 @@ public sealed class GetAnalyticsForPastDaysHandlerTest
 
         var tasks = _fixture.Build<ProjectTask>()
             .With(x => x.Status, ProjectTaskStatus.Done)
-            .With(x => x.ClosedAt, DateTime.UtcNow.AddDays(request.Days * -1))
+            .With(x => x.ClosedAt, DateTime.UtcNow.AddDays(-30))
             .CreateMany(10)
             .ToList();
             

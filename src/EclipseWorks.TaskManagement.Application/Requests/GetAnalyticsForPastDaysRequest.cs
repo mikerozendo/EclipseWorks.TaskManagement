@@ -3,9 +3,7 @@ using MediatR;
 
 namespace EclipseWorks.TaskManagement.Application.Requests;
 
-public sealed class GetAnalyticsForPastDaysRequest(int days) : IRequest<ResourceQueryResponse>
+public sealed class GetAnalyticsForPastDaysRequest : IRequest<ResourceQueryResponse>
 {
-    public int Days { get; set; } = days;
-
-    public DateTime StartDate => DateTime.UtcNow.AddDays(days * -1);
+    public DateTime StartDate => DateTime.UtcNow.AddDays(-30);
 }
