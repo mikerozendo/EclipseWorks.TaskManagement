@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using EclipseWorks.TaskManagement.Application.Requests;
 using EclipseWorks.TaskManagement.Application.Responses;
+using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Infrastructure.Repositories.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using MediatR;
@@ -42,6 +43,7 @@ public sealed class CreateProjectTaskHandler(
             Status = request.ProjectTaskStatus,
             Priority = request.TaskPriority,
             ProjectId = project.Id,
+            UserId = Guid.NewGuid() //todo: user_id
         };
         
         project.TaskIds.Add(requestedTask.Id);
@@ -51,7 +53,7 @@ public sealed class CreateProjectTaskHandler(
 
         return new ResourceCommandOnSuccessResponse()
         {
-            ResourceId = requestedTask.Id,
+            Resource = requestedTask.Id,
         };
     }
 }

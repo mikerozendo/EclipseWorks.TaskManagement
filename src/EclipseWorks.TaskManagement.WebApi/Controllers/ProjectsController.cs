@@ -29,16 +29,13 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
             Id = Guid.NewGuid(),
         });
 
-        if (response.Success)
-        {
-            return CreatedAtAction(
-                nameof(GetById),
-                new { projectId = ((ResourceCommandOnSuccessResponse)response).ResourceId }, response
-            );
-        }
-
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        if (!response.Success)
+            return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
+        
+        return CreatedAtAction(
+            nameof(GetById),
+            new { projectId = response.Resource }, response
+        );
     }
 
     [HttpPatch]
@@ -50,10 +47,9 @@ public sealed class ProjectsController(IMediator mediator) : ControllerBase
             ProjectId = projectId,
         });
 
-        if (response.Success)
-            return Accepted();
+        if (!response.Success)
+            return Problem(response.Details, statusCode: (int)response.HttpStatusCode);
 
-        var error = (ResourceCommandOnErrorResponse)response;
-        return Problem(error.Details, statusCode: (int)error.HttpStatusCode);
+        return Accepted();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EclipseWorks.TaskManagement.Application.Responses;
+using EclipseWorks.TaskManagement.Application.Responses.Interfaces;
 using EclipseWorks.TaskManagement.Models;
 using MediatR;
 

@@ -42,11 +42,17 @@ public sealed class UpdateTaskStatusHandlerTest
             .ShouldBe(HttpStatusCode.UnprocessableEntity);
     }
 
-    [Fact]
-    public async Task Handle_WithValidExistingTask_ShouldReturnsSuccess()
+    [Theory]
+    [InlineData(ProjectTaskStatus.Pending)]
+    [InlineData(ProjectTaskStatus.Doing)]
+    [InlineData(ProjectTaskStatus.Done)]
+    public async Task Handle_WithValidExistingTask_ShouldReturnsSuccess(ProjectTaskStatus status)
     {
         //Arrange
-        var request = _fixture.Create<UpdateTaskStatusRequest>();
+        var request = _fixture.Build<UpdateTaskStatusRequest>()
+            .With(x => x.ProjectTaskStatus, status)
+            .Create();
+        
         var filteredTask = _fixture.Create<ProjectTask>();
 
         _tasksRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(filteredTask);

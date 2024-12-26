@@ -9,4 +9,5 @@ public interface ITasksRepository :
 {
     Task<IEnumerable<ProjectTask>> GetByProjectIdAsync(Guid projectId);
     Task DeleteByIdAsync(Guid taskId);
+    Task<IEnumerable<ProjectTask>> GetClosedTasksByPeriodAsync(DateTime startPeriod);
 }
