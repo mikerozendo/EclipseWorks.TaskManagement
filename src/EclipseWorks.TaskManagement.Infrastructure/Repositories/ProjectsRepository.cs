@@ -28,9 +28,4 @@ public sealed class ProjectsRepository(EnvironmentConfiguration environmentConfi
     {
         await Collection.InsertOneAsync(record);
     }
-
-    public Task UpdateAsync(ProjectTask entity)
-    {
-        throw new NotImplementedException();
-    }
 }

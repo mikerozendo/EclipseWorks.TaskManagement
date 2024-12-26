@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EclipseWorks.TaskManagement.WebApi.Controllers;
 
-// [Authorize(Roles = "gerente")]
+// todo: [Authorize(Roles = "gerente")]
 [ApiController]
 [Route("api/v1/analytics")]
 public sealed class AnalyticsController(IMediator mediator) : ControllerBase
